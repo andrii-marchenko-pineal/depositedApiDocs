@@ -1,0 +1,97 @@
+
+"openapi": "3.0.1"
+"info":
+  "title": "Deposited API"
+  "description": "API to fetch client data based on brand and date."
+  "version": "1.0.0"
+"servers":
+  -
+    "url": "https://client.3anglefx.com/api.deposited"
+"paths":
+  "/":
+    "get":
+      "summary": "Fetch clients by brand and date"
+      "description": "Returns a list of clients based on the provided brand and date."
+      "parameters":
+        -
+          "in": "query"
+          "name": "brand"
+          "required": true
+          "schema":
+            "type": "string"
+          "description": "The ID of the brand."
+        -
+          "in": "query"
+          "name": "to"
+          "required": true
+          "schema":
+            "type": "string"
+            "format": "date"
+          "description": "The date up to which clients are fetched (YYYY-MM-DD)."
+        -
+          "in": "query"
+          "name": "token"
+          "required": true
+          "schema":
+            "type": "string"
+          "description": "The API token for authentication."
+      "responses":
+        "200":
+          "description": "A JSON response containing the status and client data or an error message."
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "status":
+                    "type": "string"
+                    "example": "success"
+                  "data":
+                    "type": "array"
+                    "items":
+                      "type": "object"
+                      "properties":
+                        "id":
+                          "type": "integer"
+                          "example": 1
+                        "name":
+                          "type": "string"
+                          "example": "John"
+                        "surname":
+                          "type": "string"
+                          "example": "Doe"
+                        "phone":
+                          "type": "string"
+                          "example": "+123456789"
+                        "email":
+                          "type": "string"
+                          "example": "john.doe@example.com"
+                  "message":
+                    "type": "string"
+                    "example": "Nothing was found with the given data"
+        "400":
+          "description": "Bad Request"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "status":
+                    "type": "string"
+                    "example": "error"
+                  "missing required data":
+                    "type": "string"
+                    "example": "brand, to, token"
+        "401":
+          "description": "Unauthorized"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "status":
+                    "type": "string"
+                    "example": "error"
+                  "message":
+                    "type": "string"
+                    "example": "Wrong token"
